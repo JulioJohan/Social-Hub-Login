@@ -1,10 +1,10 @@
 import { Request,Response } from 'express';
-import Usuario from '../models/usuario';
+import Usuario from '../models/user';
 import bcrypt from 'bcrypt';
 import { generarJWT, verificarToken } from '../helpers/jwt';
 import { googleVerify } from '../helpers/google-verify';
 import { getMenuFrontEnd } from '../helpers/menu-frontend';
-import { generarToken } from '../helpers/generarId';
+import { generarToken } from '../helpers/generateId';
 import { emailOlvidePassword } from '../helpers/email';
 import speakeasy from 'speakeasy';
 import { enviarDobleAuthenticacion } from '../helpers/doble-authenticacion';

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 //
-export const generarJWT = (uid:string) =>{
+export const generateJWT = (uid:string) =>{
     //
     return new Promise((resolve, reject)=>{
         //lo que enviaremos para certificar
