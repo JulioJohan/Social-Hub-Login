@@ -7,6 +7,7 @@ import fileUpload from 'express-fileupload';
 import {dataBaseConnection} from './databases/config';
 
 
+
 require('dotenv').config();
 //Crear el servidor de express
 const app = express();
@@ -25,6 +26,9 @@ app.use(bodyParser.json())
 //Rutas
 //requiero la rutas
 app.use('/api/users',require('./routes/users'));
+app.use('/api/aws',require('./routes/aws'));
+app.use('/api/firebase',require('./routes/firebase'));
+
 // app.use('/api/login',require('./routes/auth'));
 
 

@@ -10,6 +10,10 @@ import { validarJWT } from '../middlewares/validar-jwt';
 const router: Router = Router();
 
 
+router.get('/findById',userController.findById)
+
+router.delete('/deleteUser',userController.deleteUser)
+
 // router.get('/',validarJWT ,usuarioController.getUsuarios );
 router.post('/createUser',
     [       
@@ -22,31 +26,31 @@ router.post('/createUser',
     ],
 userController.createUser);
 
-// router.put('/actualizarUsuario/:id',
-// [       
-//     validarJWT,
-//     validarAdminRoleOUsuarios,
-//     //primero es el campo, segundo es el mensaje
-//     check('nombre','El nombre es obligatorio').not().isEmpty(),
-//     check('role','El role es obligatorio').not().isEmpty(),
-//     check('email','El email es obligatorio').isEmail(),
-//     validarCampos.validarCamposFun,
-
-
-// ],
-// usuarioController.actualizarUsuario);
-
-router.delete('/eliminarUsuario/:id',
-[validarJWT],
+router.put('/updateUser/:id',
 [       
+    // validarJWT,
+    // validarAdminRoleOUsuarios,
     //primero es el campo, segundo es el mensaje
-    // check('nombre','El nombre es obligatorio').not().isEmpty(),
+    check('name','El nombre es obligatorio').not().isEmpty(),
     // check('role','El role es obligatorio').not().isEmpty(),
-    // check('email','El email es obligatorio').isEmail(),
-    // validarCampos.validarCamposFun
+    check('email','El email es obligatorio').isEmail(),
+    validarCampos.validarCamposFun,
+
 
 ],
-userController.eliminarUsuario);
+userController.updateUser);
+
+// router.delete('/eliminarUsuario/:id',
+// [validarJWT],
+// [       
+//     //primero es el campo, segundo es el mensaje
+//     // check('nombre','El nombre es obligatorio').not().isEmpty(),
+//     // check('role','El role es obligatorio').not().isEmpty(),
+//     // check('email','El email es obligatorio').isEmail(),
+//     // validarCampos.validarCamposFun
+
+// ],
+// userController.eliminarUsuario);
 
 
 

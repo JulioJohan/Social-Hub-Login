@@ -14,15 +14,15 @@ export const enviarDobleAuthenticacion = (datos:any) => {
     })
 
     const informacion = trasnsportarEmail.sendMail({
-        from:'"Hospital -  Administracion de Hospitales" <hospital@adminpro.com>',
+        from:'"Social Hub - Redes Sociales" <socialhub@support.com>',
         //Email del usuario
         to: email,
-        subject: "Hospital - Verificacion de dos pasos",
-        text: "Comprueba tu cuenta en Hospital",
-        html:`<p>Hola: ${nombre} Comprueba tu cuenta en adminpro</p>
+        subject: "Social Hub - Verificacion de dos pasos",
+        text: "Comprueba tu cuenta en Social Hub",
+        html:`<p>Hola: ${nombre} Comprueba tu cuenta en Social Hub</p>
         <p>Tu codigo de verificacion es: ${authenticacionDoble}
        <p> Si tu no pediste el acceso a tu cuenta 
-        cambia tu contraseña en la app de Hosptal</p>`
+        cambia tu contraseña en la app de Social Hub</p>`
     })
 
 }
