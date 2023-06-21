@@ -12,7 +12,7 @@ import { uploadFileFirebase} from '../databases/firebase';
 // Asignando la imagen estatica
 // cuando el usuario creara la cuenta tendra esta foto de perfil por defecto
 const IMG_USER_NEW:string = 'https://firebasestorage.googleapis.com/v0/b/socialhub-30934.appspot.com/o/users%2Ffacebook-user-icon-19.jpg?alt=media&token=9d260fe4-3942-4a47-a5fc-8e7c04ee40a6';
-class UsuarioController {
+class UserController {
 
     //Busqueda por Id si se requiere
     async findById(req:Request,res:Response){
@@ -81,7 +81,7 @@ class UsuarioController {
 
             //Encriptar password
             const salt = bcrypt.genSaltSync();
-            user.password = await bcrypt.hashSync(password, salt);
+            user.password = bcrypt.hashSync(password, salt);
 
             // Genera un token de numero y letras aleotorio para mandarlo al usuario
             user.email_verified = generateToken.generateTokenMethod();
@@ -167,7 +167,7 @@ class UsuarioController {
                 //Encriptar password
                 const salt = bcrypt.genSaltSync();
                 // generando aleatoriamento la contraseña
-                userNew.password = await bcrypt.hashSync(password, salt);
+                userNew.password = bcrypt.hashSync(password, salt);
             }
 
             // si el usuario desea actualizar la imagen subira la imagen a firevase
@@ -239,6 +239,6 @@ class UsuarioController {
 
     
 }
-export const userController = new UsuarioController();
+export const userController = new UserController();
 
 

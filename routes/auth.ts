@@ -18,7 +18,7 @@ import { validarJWT } from '../middlewares/validar-jwt';
     login.login
  )
 
-//  router.post('/dobleAuthenticacion',login.comprobarDobleAuthenticacion);
+ router.post('/checkDoubleAuthentication',login.checkDoubleAuthentication);
 
 
 //  router.post('/google',
@@ -41,8 +41,9 @@ import { validarJWT } from '../middlewares/validar-jwt';
 //     login.verificarTiempoSesion
 // )
 
-// router.get('/confirmar/:tokenDoble',login.confirmar)
-// router.post('/olvide-password',login.olvidePassword);
-// router.route('/nuevo-password/:tokenDoble').get(login.comprobarTokenValidacion).post(login.nuevoPassword);
+router.get('/confirmEmail/:emailVerified',login.confirmEmail)
+router.post('/forget-password',login.forgetPassword);
+// router.get('/new-password/:tokenPassword',login.checkTokenPassword)
+router.route('/new-password/:tokenPassword').get(login.checkTokenPassword).post(login.newPassword);
 
 module.exports = router;

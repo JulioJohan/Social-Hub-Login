@@ -29,7 +29,7 @@ app.use('/api/users',require('./routes/users'));
 app.use('/api/aws',require('./routes/aws'));
 app.use('/api/firebase',require('./routes/firebase'));
 
-// app.use('/api/login',require('./routes/auth'));
+app.use('/api/login',require('./routes/auth'));
 
 
 // req lo que se solicita
