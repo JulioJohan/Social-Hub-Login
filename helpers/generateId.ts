@@ -1,4 +1,4 @@
-class generateId{
+class GenerateId{
 
     
     generateTokenMethod(){
@@ -9,4 +9,4 @@ class generateId{
     
 }
 
-export const generateToken = new generateId();
+export const generateToken = new GenerateId();

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 //
-export const generateJWT = (uid:string) =>{
+export const generateJWT = (uid:number) =>{
     //
     return new Promise((resolve, reject)=>{
         //lo que enviaremos para certificar
@@ -11,7 +11,7 @@ export const generateJWT = (uid:string) =>{
 
     //firmar el payload, el token y duracion de lo que dura el token
     jwt.sign(payload,`${process.env.JWT_SECRET}`,{
-        expiresIn: '5m',
+        expiresIn: '10m',
     },(error,token) =>{
         if(error){
             console.log(error);
