@@ -179,7 +179,10 @@ class Login{
             await userConfirmed!.save();        
             res.json({ok:true, msg: 'Usuario Confirmado Correctamente' })
         } catch (error) {
-            console.log(error)
+            res.status(500).json({
+                ok: false,
+                msg: 'Error inesperado '
+            })
         }
     }
 
@@ -218,7 +221,10 @@ class Login{
             //enviando el mensaje al usuario
             res.json({msg: 'Hemos enviado un email con las instrucciones'})
         } catch (error) {
-            console.log(error)
+            res.status(500).json({
+                ok: false,
+                msg: 'Error inesperado '
+            })
         }
     }
 
@@ -251,7 +257,10 @@ class Login{
                 ok:false
             })
         }catch(error){
-            console.log(error);
+            res.status(500).json({
+                ok: false,
+                msg: 'Error inesperado '
+            })
         }
     }
 
@@ -345,7 +354,7 @@ class Login{
             const token:any = await generateJWT(userDB.id_user);
             console.log("token expiracion")
             console.log(token.exp)
-            res.json({
+            return res.json({
                 ok:true,
                 msg:token,
                 // menu: getMenuFrontEnd (userDB.role)
@@ -354,8 +363,9 @@ class Login{
             
         } catch (error) {
             console.log(error)
-            res.status(500).json({
-                error
+           return res.status(500).json({
+                ok: false,
+                msg: 'Error inesperado '
             })
         }
     }

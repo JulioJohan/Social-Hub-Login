@@ -24,13 +24,13 @@ class UserController {
             user = await User.findByPk(id);
         } catch (error) {
             console.log(error);                        
-            return res.json({
+            return res.status(500).json({
                 ok: false,
-                msg: 'Error en conexión de base de datos'
+                msg: 'Error inesperado '
             })
         }
         if(!user){
-            return res.json({
+            return res.status(404).json({
                 ok: false,
                 msg: 'El usuario no existe en la base de datos'
             })
@@ -193,7 +193,10 @@ class UserController {
             })
 
         } catch (error) {
-            console.log(error);
+            res.status(500).json({
+                ok: false,
+                msg: 'Error inesperado '
+            })
         }
 
     }
@@ -230,9 +233,9 @@ class UserController {
 
         } catch (error) {
             // console.log(error);
-            res.json({
+            res.status(500).json({
                 ok: false,
-                msg: "Error inesperado"
+                msg: 'Error inesperado '
             })
         }
     }
