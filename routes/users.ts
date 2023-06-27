@@ -10,7 +10,7 @@ import { validarJWT } from '../middlewares/validar-jwt';
 const router: Router = Router();
 
 
-router.get('/findById',userController.findById)
+router.get('/findById/:id',userController.findById)
 
 router.delete('/deleteUser/:id',userController.deleteUser)
 
