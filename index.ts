@@ -3,8 +3,9 @@ import cors from 'cors';
 import path from 'path';
 import multer from 'multer';
 import bodyParser from 'body-parser';
-
+import fileUpload from 'express-fileupload';
 import {dataBaseConnection} from './databases/config';
+
 
 
 require('dotenv').config();
@@ -13,6 +14,7 @@ const app = express();
 
 //configurar cors
 app.use(cors());
+app.use(fileUpload())
 
 dataBaseConnection();
 
@@ -23,12 +25,15 @@ app.use(bodyParser.json())
 
 //Rutas
 //requiero la rutas
-// app.use('/api/usuarios',require('./routes/usuarios'));
-// app.use('/api/login',require('./routes/auth'));
+app.use('/api/users',require('./routes/users'));
+app.use('/api/aws',require('./routes/aws'));
+app.use('/api/firebase',require('./routes/firebase'));
+
+app.use('/api/login',require('./routes/auth'));
 
 
 // req lo que se solicita
 // res va a responder al cliente
-app.listen(process.env.PORT,()=>{
-    console.log('servidor corriendo en puerto ' + process.env.PORT)
+app.listen(process.env.PORT_BACKEND,()=>{
+    console.log('servidor corriendo en puerto ' + process.env.PORT_BACKEND)
 })

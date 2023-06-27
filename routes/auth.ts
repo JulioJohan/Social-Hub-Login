@@ -11,38 +11,39 @@ import { validarJWT } from '../middlewares/validar-jwt';
 
  router.post('/',
     [
-        // check('email',"El email es oligatorio").isEmail(),
-        // check('password',"El password es obligatorio").not().isEmpty(),
+        check('email',"El email es oligatorio").isEmail(),
+        check('password',"El password es obligatorio").not().isEmpty(),
         validarCampos.validarCamposFun
     ],
-    login.ingresa
+    login.login
  )
 
- router.post('/dobleAuthenticacion',login.comprobarDobleAuthenticacion);
+ router.post('/checkDoubleAuthentication',login.checkDoubleAuthentication);
 
 
- router.post('/google',
- [
-     check('token',"El token de google obligatorio").not().isEmpty(),
-     validarCampos.validarCamposFun
- ],
- login.googleSingIn
+//  router.post('/google',
+//  [
+//      check('token',"El token de google obligatorio").not().isEmpty(),
+//      validarCampos.validarCamposFun
+//  ],
+//  login.googleSingIn
 
  
-)
+// )
 
-router.get('/renew',
-    validarJWT,
-    login.renewToken
-)
+// router.get('/renew',
+//     validarJWT,
+//     login.renewToken
+// )
 
-router.get('/fecha',
-    // validarJWT,
-    login.verificarTiempoSesion
-)
+// router.get('/fecha',
+//     // validarJWT,
+//     login.verificarTiempoSesion
+// )
 
-router.get('/confirmar/:tokenDoble',login.confirmar)
-router.post('/olvide-password',login.olvidePassword);
-router.route('/nuevo-password/:tokenDoble').get(login.comprobarTokenValidacion).post(login.nuevoPassword);
+router.get('/confirmEmail/:emailVerified',login.confirmEmail)
+router.post('/forget-password',login.forgetPassword);
+// router.get('/new-password/:tokenPassword',login.checkTokenPassword)
+router.route('/new-password/:tokenPassword').get(login.checkTokenPassword).post(login.newPassword);
 
 module.exports = router;

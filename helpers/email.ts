@@ -2,7 +2,7 @@
 import nodemailer from 'nodemailer';
 
 //Datos para la confirmacion del registro
-export const emailRegistro = async(datos:any) =>{
+export const emailRegister = async(datos:any) =>{
     const {email, nombre, token } = datos;
     
     //Obtenido de Mailtrap

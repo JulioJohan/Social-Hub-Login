@@ -1,6 +1,7 @@
-class generarId{
+class GenerateId{
 
-    generarIdMetodo(){
+    
+    generateTokenMethod(){
         const random = Math.random().toString(32).substring(2)
         const fecha = Date.now().toString(32);
         return random + fecha;
@@ -8,4 +9,4 @@ class generarId{
     
 }
 
-export const generarToken = new generarId();
+export const generateToken = new GenerateId();
