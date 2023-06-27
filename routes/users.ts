@@ -12,7 +12,7 @@ const router: Router = Router();
 
 router.get('/findById',userController.findById)
 
-router.delete('/deleteUser',userController.deleteUser)
+router.delete('/deleteUser/:id',userController.deleteUser)
 
 // router.get('/',validarJWT ,usuarioController.getUsuarios );
 router.post('/createUser',
