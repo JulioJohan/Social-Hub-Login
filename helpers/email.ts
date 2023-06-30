@@ -25,7 +25,7 @@ export const emailRegister = async(datos:any) =>{
        text: "Comprueba tu cuenta en Mykiu",
        html:`<p>Hola: ${nombre} Comprueba tu cuenta en adminpro</p>
         <p>Tu cuenta ya casi esta lista, solo debes comprobarla en el siguiente enlace:
-        <a href = "https://ubiquitous-bublanina-fa06e5.netlify.app/confirmar/${token}">Comprobar Cuenta</a>       
+        <a href = "http://localhost:4200/confirmar/${token}">Comprobar Cuenta</a>       
        <p> Si tu no creaste esta cuente, puedes ignorar el mensaje </p>`
     })
 }
@@ -56,7 +56,7 @@ export const emailOlvidePassword = async(datos:any) => {
            text: "Restablece tu password en adminPro",
            html:`<p>Hola: ${nombre} has solicitado restablecer tu password en adminPro </p>
             <p>Sigue el siguiente enlace para generar un nuevo password:
-            <a href = "https://ubiquitous-bublanina-fa06e5.netlify.app/nuevo-password/${token}">Restablecer Password</a>       
+            <a href = "http://localhost:4200/nuevo-password/${token}">Restablecer Password</a>       
            <p> Si tu no solicitaste este email, puedes ignorar el mensaje </p>
             `
        })
