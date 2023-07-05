@@ -24,18 +24,18 @@ class Login{
 
             //Verificar email si existe
             if(!userDB){
-                return res.status(404).json({
+                return res.json({
                     ok:false,
                     msg:'El email no fue encontrado'
-                }) 
+                }).status(404);
             }
 
             // Verificando si la cuenta esta confirmada
             if (!userDB.confirmed) {
-                return res.status(403).json({
+                return res.json({
                     ok: false,
                     msg: 'Tu cuenta no esta confirmada'
-                })
+                }).status(403);
             }
 
             //Verificar password
@@ -44,10 +44,10 @@ class Login{
             const checkPassword = bcrypt.compareSync(password,userDB.password);
             //Mandando Mensaje al usuario si la contraseña es valida
             if(!checkPassword){
-                return res.status(400).json({
+                return res.json({
                     ok:false,
                     msg:'La contraseña no es valida',
-                })
+                }).status(400);
             }
            
             // Generando Key alaeorio para doble autenticacion
@@ -66,7 +66,7 @@ class Login{
                 authenticacionDoble:userDB.multi_factor_authentication                            
             })
                       
-            res.json({msg: 'Hemos enviado un email con tu codigo de verificación',ok:true})
+            res.json({msg: 'Hemos enviado un email con tu codigo de verificación',ok:true}).status(200);
 
             // this.comprobarDobleAuthenticacion(req,res);
             // const codigo = enviarTokenSMS();
@@ -74,10 +74,10 @@ class Login{
            
         } catch (error) {
             console.log(error)
-            res.status(500).json({
+            res.json({
                 ok:false,
                 msg:"Error inesperado auth"
-            })
+            }).status(500);
         }
 
     }
@@ -179,10 +179,10 @@ class Login{
             await userConfirmed!.save();        
             res.json({ok:true, msg: 'Usuario Confirmado Correctamente' })
         } catch (error) {
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 
@@ -221,10 +221,10 @@ class Login{
             //enviando el mensaje al usuario
             res.json({msg: 'Hemos enviado un email con las instrucciones'})
         } catch (error) {
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 
@@ -244,8 +244,9 @@ class Login{
             res.json({
                 ok:false,
                 msg:'El token no es valido',    
-            })
+            }).status(400)
         }
+    
         try{
            //Encriptar password
             const salt = bcrypt.genSaltSync();
@@ -255,12 +256,12 @@ class Login{
             res.json({
                 msg:'La Contraseña se actualizo correctamente',
                 ok:false
-            })
+            }).status(200)
         }catch(error){
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 
@@ -276,14 +277,14 @@ class Login{
             res.json({
                 msg:'Token no valido',
                 ok:false
-            })
+            }).status(400)
         }
     // Si el token existe continuemos con el proceso del nuevo password
         if(tokenValidar){
             res.json({
                 msg:'Token Valido el Usuario existe',
                 ok:true
-            })
+            }).status(200);
         }
     }
 
@@ -336,10 +337,10 @@ class Login{
 
             
             if(!userDB){
-                return res.status(403).json({
+                return res.json({
                     ok:false,
                     msg:'No existe este usuario'
-                })
+                }).status(403);
             }
 
             //Verificando si realmente existe doble autenticacion 
@@ -347,7 +348,7 @@ class Login{
                 return res.status(403).json({
                     ok:false,
                     msg:'El codigo de verificacion es incorrecto'
-                })
+                }).status(403);
             }                  
     
             // Enviando el token para el inicio de sesion 
@@ -358,15 +359,15 @@ class Login{
                 ok:true,
                 msg:token,
                 // menu: getMenuFrontEnd (userDB.role)
-            });
+            }).status(200);
            
             
         } catch (error) {
             console.log(error)
-           return res.status(500).json({
+           return res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 

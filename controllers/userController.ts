@@ -24,22 +24,22 @@ class UserController {
             user = await User.findByPk(id);
         } catch (error) {
             console.log(error);                        
-            return res.status(500).json({
+            return res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
         if(!user){
-            return res.status(404).json({
+            return res.json({
                 ok: false,
                 msg: 'El usuario no existe en la base de datos'
-            })
+            }).status(404);
         }    
 
         res.json({
             ok: true,
             msg: 'Busqueda por id se consulto correctamente'
-        })
+        }).status(200)
     }
 
     // async getUsuarios(req: Request, res: Response) {
@@ -72,11 +72,11 @@ class UserController {
             //Busqueda por email con el where con el orm bycript 
             const existeEmail = await User.findOne({where:{email: email}})
 
-            if (existeEmail) {
-                return res.status(400).json({
+            if (existeEmail) {     
+                return res.json({
                     ok: false,
                     msg: 'El correo ya esta registrado'
-                })
+                }).status(400);
             }
 
             //Encriptar password
@@ -101,17 +101,17 @@ class UserController {
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
         res.json({
             ok: true,
             msg: 'Usuario Creado Correctamente, Revisa tu Email para confirmar tu cuenta',
             user,
             token
-        })
+        }).status(200);
 
     }
 
@@ -142,10 +142,10 @@ class UserController {
 
             //si el usuario no esta
             if (!usuarioDB) {
-                return res.status(404).json({
+                return res.json({
                     ok: false,
                     msg: 'No existe un usuario con ese id'
-                })
+                }).status(404);
             }
 
             //si el usuario manda un diferente correo 
@@ -155,10 +155,10 @@ class UserController {
                 const existeEmail = await User.findOne({where:{email:email}})
                 //si existe mandamos un error
                 if (existeEmail) {
-                    return res.status(400).json({
+                    return res.json({
                         ok: false,
                         msg: 'Ya existe un usuario con ese email'
-                    })
+                    }).status(400);
                 }
             }
 
@@ -190,13 +190,13 @@ class UserController {
                 ok: true,
                 usuarioActualizado,
                 msg:'La información se actualizó correctamente'
-            })
+            }).status(200);
 
         } catch (error) {
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
 
     }
@@ -212,10 +212,10 @@ class UserController {
 
             // si el usuario no esta
             if (!usuarioDB) {
-                return res.status(404).json({
+                return res.json({
                     ok: false,
                     msg: 'No existe un usuario'
-                })
+                }).status(404)
             }
 
             // Eliminando donde esta el id
@@ -229,7 +229,7 @@ class UserController {
             res.json({  
                 ok: true,
                 msg: "Usuario Eliminado"
-            });
+            }).status(200);
 
         } catch (error) {
             // console.log(error);
