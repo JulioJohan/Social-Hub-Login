@@ -4,9 +4,9 @@ import { generateJWT, verificarToken } from '../helpers/jwt';
 import { googleVerify } from '../helpers/google-verify';
 import { getMenuFrontEnd } from '../helpers/menu-frontend';
 import { generateToken } from '../helpers/generateId';
-import { emailOlvidePassword } from '../helpers/email';
+import { emailForgetPassword } from '../helpers/email';
 import speakeasy from 'speakeasy';
-import { enviarDobleAuthenticacion } from '../helpers/doble-authenticacion';
+import { sendDoubleAuthenticacion } from '../helpers/doble-authenticacion';
 import { User } from '../models/user';
 
 // Clase Login para todos los metodos que se va a requerir
@@ -59,7 +59,7 @@ class Login{
             await userDB.save();
 
             // Enviar Doble Authenticacion por email
-            enviarDobleAuthenticacion({
+            sendDoubleAuthenticacion({
                 id:userDB.id_user,
                 email:userDB.email,
                 nombre:userDB.name,
@@ -209,7 +209,7 @@ class Login{
             await user?.save();
 
             // Envinado El password
-            emailOlvidePassword({
+            emailForgetPassword({
                 //Le enviaremos el email
                 email: user!.email,
                 //Enviando el nombre 
