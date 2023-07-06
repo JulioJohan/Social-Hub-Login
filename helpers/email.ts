@@ -10,6 +10,7 @@ export const emailRegister = async(datos:any) =>{
     
     // Contenido del correo
     const msg = {
+                
         to: email,
         from: 'zeyjohan@gmail.com',
         subject: 'Social Hub - Verificacion de dos pasos',
