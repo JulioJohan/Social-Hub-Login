@@ -57,7 +57,7 @@ export const emailForgetPassword = async(datos:any) => {
         html:`<p>Hola: ${nombre} has solicitado restablecer tu password en Social Hub </p>
         <p>Sigue el siguiente enlace para generar un nuevo password:
         <a href = "http://localhost:4200/#/auth/change-pass/${token}">Restablecer Password</a>       
-        <p> Si tu no solicitaste este email, puedes ignorar el mensaje </p>`
+        <p> Si tu no solicitaste este email, puedes ignorar el mensaje </p> ` 
     };
 
     // Envio del correo
