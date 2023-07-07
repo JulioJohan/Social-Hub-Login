@@ -10,7 +10,7 @@ export const sendDoubleAuthenticacion = (datos:any) => {
     // Contenido del correo
     const msg = {
         to: email,
-        from: 'zeyjohan@gmail.com', 
+        from: 'ddocfee@gmail.com', 
         subject: 'Social Hub - Verificacion de dos pasos',
         text: 'Comprueba tu cuenta en Social Hub',
         html: `<p>Hola: ${nombre} Comprueba tu cuenta en Social Hub</p>
