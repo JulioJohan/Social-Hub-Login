@@ -13,7 +13,11 @@ require('dotenv').config();
 const app = express();
 
 //configurar cors
-app.use(cors());
+
+const corsOptions = {
+    origin: 'http://localhost:4200',
+}
+app.use(cors(corsOptions));
 app.use(fileUpload())
 
 dataBaseConnection();

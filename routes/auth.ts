@@ -9,14 +9,7 @@ import { validarJWT } from '../middlewares/validar-jwt';
  const router = Router();
 
 
- router.post('/',
-    [
-        check('email',"El email es oligatorio").isEmail(),
-        check('password',"El password es obligatorio").not().isEmpty(),
-        validarCampos.validarCamposFun
-    ],
-    login.login
- )
+ router.post('/',login.login)
 
  router.post('/checkDoubleAuthentication',login.checkDoubleAuthentication);
 

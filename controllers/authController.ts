@@ -4,9 +4,9 @@ import { generateJWT, verificarToken } from '../helpers/jwt';
 import { googleVerify } from '../helpers/google-verify';
 import { getMenuFrontEnd } from '../helpers/menu-frontend';
 import { generateToken } from '../helpers/generateId';
-import { emailOlvidePassword } from '../helpers/email';
+import { emailForgetPassword } from '../helpers/email';
 import speakeasy from 'speakeasy';
-import { enviarDobleAuthenticacion } from '../helpers/doble-authenticacion';
+import { sendDoubleAuthenticacion } from '../helpers/doble-authenticacion';
 import { User } from '../models/user';
 
 // Clase Login para todos los metodos que se va a requerir
@@ -24,18 +24,18 @@ class Login{
 
             //Verificar email si existe
             if(!userDB){
-                return res.status(404).json({
+                return res.json({
                     ok:false,
                     msg:'El email no fue encontrado'
-                }) 
+                }).status(404);
             }
 
             // Verificando si la cuenta esta confirmada
             if (!userDB.confirmed) {
-                return res.status(403).json({
+                return res.json({
                     ok: false,
                     msg: 'Tu cuenta no esta confirmada'
-                })
+                }).status(403);
             }
 
             //Verificar password
@@ -44,10 +44,10 @@ class Login{
             const checkPassword = bcrypt.compareSync(password,userDB.password);
             //Mandando Mensaje al usuario si la contraseña es valida
             if(!checkPassword){
-                return res.status(400).json({
+                return res.json({
                     ok:false,
                     msg:'La contraseña no es valida',
-                })
+                }).status(400);
             }
            
             // Generando Key alaeorio para doble autenticacion
@@ -59,14 +59,14 @@ class Login{
             await userDB.save();
 
             // Enviar Doble Authenticacion por email
-            enviarDobleAuthenticacion({
+            sendDoubleAuthenticacion({
                 id:userDB.id_user,
                 email:userDB.email,
                 nombre:userDB.name,
                 authenticacionDoble:userDB.multi_factor_authentication                            
             })
                       
-            res.json({msg: 'Hemos enviado un email con tu codigo de verificación',ok:true})
+            res.json({msg: 'Hemos enviado un email con tu codigo de verificación',ok:true}).status(200);
 
             // this.comprobarDobleAuthenticacion(req,res);
             // const codigo = enviarTokenSMS();
@@ -74,10 +74,10 @@ class Login{
            
         } catch (error) {
             console.log(error)
-            res.status(500).json({
+            res.json({
                 ok:false,
                 msg:"Error inesperado auth"
-            })
+            }).status(500);
         }
 
     }
@@ -160,9 +160,10 @@ class Login{
     async confirmEmail(req: Request, res: Response) {
         // console.log(req.params.token)
         // obtenermos el parametro
-        const { email_verified } = req.params;
+        const { emailVerified } = req.params;
+        console.log(emailVerified)
         //buscando un usuario con ese token    
-        const userConfirmed = await User.findOne({where:{email_verified:email_verified}});
+        const userConfirmed = await User.findOne({where:{email_verified:emailVerified}});
         // Si no existe el token mandamos al usuario que no es valido
         if (!userConfirmed || userConfirmed === null) {
             return res.json({
@@ -179,10 +180,10 @@ class Login{
             await userConfirmed!.save();        
             res.json({ok:true, msg: 'Usuario Confirmado Correctamente' })
         } catch (error) {
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 
@@ -201,7 +202,7 @@ class Login{
             res.json({
                 msg: "El usuario no existe",
                 ok: false
-            })
+            }).status(404);
         }
         try {
             //Generando token
@@ -209,7 +210,7 @@ class Login{
             await user?.save();
 
             // Envinado El password
-            emailOlvidePassword({
+            emailForgetPassword({
                 //Le enviaremos el email
                 email: user!.email,
                 //Enviando el nombre 
@@ -219,12 +220,12 @@ class Login{
             })
 
             //enviando el mensaje al usuario
-            res.json({msg: 'Hemos enviado un email con las instrucciones'})
+            res.json({msg: 'Hemos enviado un correo con las instrucciones',ok:true})
         } catch (error) {
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 
@@ -244,8 +245,9 @@ class Login{
             res.json({
                 ok:false,
                 msg:'El token no es valido',    
-            })
+            }).status(400)
         }
+    
         try{
            //Encriptar password
             const salt = bcrypt.genSaltSync();
@@ -255,12 +257,12 @@ class Login{
             res.json({
                 msg:'La Contraseña se actualizo correctamente',
                 ok:false
-            })
+            }).status(200)
         }catch(error){
-            res.status(500).json({
+            res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 
@@ -270,20 +272,20 @@ class Login{
         const {tokenPassword} = req.params;        
         // Buscando en la base de datos
         const tokenValidar = await User.findOne({where:{multi_factor_authentication:tokenPassword}});
-
+        console.log(tokenPassword)
         // Si el token no existe mandamos mensjae al usuario
         if(!tokenValidar){
             res.json({
                 msg:'Token no valido',
                 ok:false
-            })
+            }).status(400)
         }
     // Si el token existe continuemos con el proceso del nuevo password
         if(tokenValidar){
             res.json({
                 msg:'Token Valido el Usuario existe',
                 ok:true
-            })
+            }).status(200);
         }
     }
 
@@ -336,37 +338,36 @@ class Login{
 
             
             if(!userDB){
-                return res.status(403).json({
+                return res.json({
                     ok:false,
                     msg:'No existe este usuario'
-                })
+                }).status(403);
             }
 
             //Verificando si realmente existe doble autenticacion 
             if(user.multi_factor_authentication !== userDB.multi_factor_authentication){
-                return res.status(403).json({
+                return res.json({
                     ok:false,
                     msg:'El codigo de verificacion es incorrecto'
-                })
+                }).status(403);
             }                  
     
             // Enviando el token para el inicio de sesion 
             const token:any = await generateJWT(userDB.id_user);
             console.log("token expiracion")
-            console.log(token.exp)
             return res.json({
                 ok:true,
                 msg:token,
                 // menu: getMenuFrontEnd (userDB.role)
-            });
+            }).status(200);
            
             
         } catch (error) {
             console.log(error)
-           return res.status(500).json({
+           return res.json({
                 ok: false,
                 msg: 'Error inesperado '
-            })
+            }).status(500);
         }
     }
 
