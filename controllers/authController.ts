@@ -160,9 +160,10 @@ class Login{
     async confirmEmail(req: Request, res: Response) {
         // console.log(req.params.token)
         // obtenermos el parametro
-        const { email_verified } = req.params;
+        const { emailVerified } = req.params;
+        console.log(emailVerified)
         //buscando un usuario con ese token    
-        const userConfirmed = await User.findOne({where:{email_verified:email_verified}});
+        const userConfirmed = await User.findOne({where:{email_verified:emailVerified}});
         // Si no existe el token mandamos al usuario que no es valido
         if (!userConfirmed || userConfirmed === null) {
             return res.json({
@@ -201,7 +202,7 @@ class Login{
             res.json({
                 msg: "El usuario no existe",
                 ok: false
-            })
+            }).status(404);
         }
         try {
             //Generando token
@@ -219,7 +220,7 @@ class Login{
             })
 
             //enviando el mensaje al usuario
-            res.json({msg: 'Hemos enviado un email con las instrucciones'})
+            res.json({msg: 'Hemos enviado un correo con las instrucciones',ok:true})
         } catch (error) {
             res.json({
                 ok: false,
@@ -271,7 +272,7 @@ class Login{
         const {tokenPassword} = req.params;        
         // Buscando en la base de datos
         const tokenValidar = await User.findOne({where:{multi_factor_authentication:tokenPassword}});
-
+        console.log(tokenPassword)
         // Si el token no existe mandamos mensjae al usuario
         if(!tokenValidar){
             res.json({
@@ -345,7 +346,7 @@ class Login{
 
             //Verificando si realmente existe doble autenticacion 
             if(user.multi_factor_authentication !== userDB.multi_factor_authentication){
-                return res.status(403).json({
+                return res.json({
                     ok:false,
                     msg:'El codigo de verificacion es incorrecto'
                 }).status(403);
@@ -354,7 +355,6 @@ class Login{
             // Enviando el token para el inicio de sesion 
             const token:any = await generateJWT(userDB.id_user);
             console.log("token expiracion")
-            console.log(token.exp)
             return res.json({
                 ok:true,
                 msg:token,
