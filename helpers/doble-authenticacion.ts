@@ -1,28 +1,28 @@
-import nodemailer from 'nodemailer';
+import sgMail  from '@sendgrid/mail';
 
-
-export const enviarDobleAuthenticacion = (datos:any) => {
+// Doble Autenticación
+export const sendDoubleAuthenticacion = (datos:any) => {
+    // Estableciendo la api key 
+    sgMail.setApiKey(process.env.SEND_GRID!)
+    //extrayendo los datos
     const {email, nombre,authenticacionDoble} = datos;
-
-    const trasnsportarEmail = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: Number(process.env.EMAIL_PORT),
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    })
-
-    const informacion = trasnsportarEmail.sendMail({
-        from:'"Social Hub - Redes Sociales" <socialhub@support.com>',
-        //Email del usuario
+   
+    // Contenido del correo
+    const msg = {
         to: email,
-        subject: "Social Hub - Verificacion de dos pasos",
-        text: "Comprueba tu cuenta en Social Hub",
-        html:`<p>Hola: ${nombre} Comprueba tu cuenta en Social Hub</p>
+        from: 'ddocfee@gmail.com', 
+        subject: 'Social Hub - Verificacion de dos pasos',
+        text: 'Comprueba tu cuenta en Social Hub',
+        html: `<p>Hola: ${nombre} Comprueba tu cuenta en Social Hub</p>
         <p>Tu codigo de verificacion es: ${authenticacionDoble}
-       <p> Si tu no pediste el acceso a tu cuenta 
+        <p> Si tu no pediste el acceso a tu cuenta 
         cambia tu contraseña en la app de Social Hub</p>`
-    })
+    };
 
+    // Envio del correo
+    sgMail.send(msg).then(()=>{
+        console.log('Email sent');
+    }).catch((error) => {
+        console.error(error)
+    })
 }

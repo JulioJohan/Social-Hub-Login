@@ -7,7 +7,7 @@
     "dev": "ts-node-dev index.ts",
     "tsc": "tsc",
     "start": "node build/index.js",
-    "sonar":"sonar-scanner"
+    "sonar": "sonar-scanner"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.341.0",
     "@aws-sdk/s3-request-presigner": "^3.350.0",
+    "@sendgrid/mail": "^7.7.0",
     "assert": "^2.0.0",
     "authy": "^1.4.0",
     "authy-client": "^1.1.4",
