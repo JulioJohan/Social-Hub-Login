@@ -1,8 +1,6 @@
 import { Request,Response } from 'express';
 import bcrypt from 'bcrypt';
-import { generateJWT, verificarToken } from '../helpers/jwt';
-import { googleVerify } from '../helpers/google-verify';
-import { getMenuFrontEnd } from '../helpers/menu-frontend';
+import { generateJWT } from '../helpers/jwt';
 import { generateToken } from '../helpers/generateId';
 import { emailForgetPassword } from '../helpers/email';
 import speakeasy from 'speakeasy';
@@ -220,7 +218,7 @@ class Login{
             })
 
             //enviando el mensaje al usuario
-            res.json({msg: 'Hemos enviado un correo con las instrucciones',ok:true})
+            res.json({msg: 'Hemos enviado un email con las instrucciones',ok:true})
         } catch (error) {
             res.json({
                 ok: false,
