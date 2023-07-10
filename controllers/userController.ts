@@ -33,12 +33,14 @@ class UserController {
             return res.json({
                 ok: false,
                 msg: 'El usuario no existe en la base de datos'
+                
             }).status(404);
         }    
 
         res.json({
             ok: true,
-            msg: 'Busqueda por id se consulto correctamente'
+            msg: 'Busqueda por id se consulto correctamente',
+            data: user
         }).status(200)
     }
 
