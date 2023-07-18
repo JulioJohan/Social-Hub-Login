@@ -119,7 +119,7 @@ class UserController {
 
     async updateUser(req: any, res: Response) {
         // Extraer la informacion que el usuario puede actualizar
-        const {name,email,age,date_birth,father_last_name,mother_last_name,avatar} = req.body;
+        const {name,email,age,date_birth,password,father_last_name,mother_last_name,avatar} = req.body;
         // Obteniendo el archvo para guardar
         const file = req.files?.multimedia;
        
@@ -127,7 +127,7 @@ class UserController {
         const userNew = {
             name: name,
             email:email,
-            // password:password,
+            password:password,
             age: age,
             date_birth:date_birth,
             father_last_name:father_last_name,
@@ -165,13 +165,13 @@ class UserController {
                 }
             }
 
-            // Si el usuario actualiza su contraseña
-            // if(usuarioDB.password !== password ){
-            //     //Encriptar password
-            //     const salt = bcrypt.genSaltSync();
-            //     // generando aleatoriamento la contraseña
-            //     userNew.password = bcrypt.hashSync(password, salt);
-            // }
+            //Si el usuario actualiza su contraseña
+            if(usuarioDB.password !== password ){
+                //Encriptar password
+                const salt = bcrypt.genSaltSync();
+                // generando aleatoriamento la contraseña
+                userNew.password = bcrypt.hashSync(password, salt);
+            }
 
             // si el usuario desea actualizar la imagen subira la imagen a firevase
             if(file != undefined){
