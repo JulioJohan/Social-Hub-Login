@@ -121,8 +121,7 @@ class UserController {
         // Extraer la informacion que el usuario puede actualizar
         const {name,email,age,date_birth,password,father_last_name,mother_last_name,avatar} = req.body;
         // Obteniendo el archvo para guardar
-        const file = req.files?.multimedia;
-       
+        const file = req.files?.avatar;
         // creando un objeto y asignando información de lo que recibimos
         const userNew = {
             name: name,
