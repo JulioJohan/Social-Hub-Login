@@ -12,7 +12,7 @@ export const emailRegister = async(datos:any) =>{
     const msg = {
                 
         to: email,
-        from: 'ddocfee@gmail.com',
+        from: 'shub64127@gmail.com',
         subject: 'Social Hub - Verificacion de dos pasos',
         text: 'Comprueba tu cuenta en Social Hub',
         html: `<p>Hola: ${nombre} Comprueba tu cuenta en Social Hub</p>
@@ -51,7 +51,7 @@ export const emailForgetPassword = async(datos:any) => {
     // Contenido del correo
     const msg  = {        
         to: email,
-        from: 'ddocfee@gmail.com', 
+        from: 'shub64127@gmail.com', 
         subject: 'Social Hub - Verificacion de dos pasos',
         text: "Restablece tu Contraseña en Social Hub",
         html:`<p>Hola: ${nombre} has solicitado restablecer tu password en Social Hub </p>
