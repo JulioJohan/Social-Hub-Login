@@ -126,7 +126,6 @@ class UserController {
         const userNew = {
             name: name,
             email:email,
-            password:password,
             age: age,
             date_birth:date_birth,
             father_last_name:father_last_name,
@@ -165,12 +164,12 @@ class UserController {
             }
 
             //Si el usuario actualiza su contraseña
-            if(usuarioDB.password !== password ){
-                //Encriptar password
-                const salt = bcrypt.genSaltSync();
-                // generando aleatoriamento la contraseña
-                userNew.password = bcrypt.hashSync(password, salt);
-            }
+            // if(usuarioDB.password !== password ){
+            //     //Encriptar password
+            //     const salt = bcrypt.genSaltSync();
+            //     // generando aleatoriamento la contraseña
+            //     userNew.password = bcrypt.hashSync(password, salt);
+            // }
 
             // si el usuario desea actualizar la imagen subira la imagen a firevase
             if(file != undefined){
