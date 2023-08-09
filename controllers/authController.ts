@@ -197,7 +197,7 @@ class Login{
 
         // Verificando si el correo o usuario existe
         if (!user || user === null) {
-            res.json({
+            return res.json({
                 msg: "El usuario no existe",
                 ok: false
             }).status(404);
