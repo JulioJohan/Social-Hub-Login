@@ -33,12 +33,14 @@ class UserController {
             return res.json({
                 ok: false,
                 msg: 'El usuario no existe en la base de datos'
+                
             }).status(404);
         }    
 
         res.json({
             ok: true,
-            msg: 'Busqueda por id se consulto correctamente'
+            msg: 'Busqueda por id se consulto correctamente',
+            data: user
         }).status(200)
     }
 
@@ -117,18 +119,17 @@ class UserController {
 
     async updateUser(req: any, res: Response) {
         // Extraer la informacion que el usuario puede actualizar
-        const {name,email,password,age,dateBirth,fatherLastName,avatar} = req.body;
+        const {name,email,age,date_birth,password,father_last_name,mother_last_name,avatar} = req.body;
         // Obteniendo el archvo para guardar
-        const file = req.files?.multimedia;
-       
+        const file = req.files?.avatar;
         // creando un objeto y asignando información de lo que recibimos
         const userNew = {
             name: name,
             email:email,
-            password:password,
             age: age,
-            date_birth:dateBirth,
-            father_last_name:fatherLastName,
+            date_birth:date_birth,
+            father_last_name:father_last_name,
+            mother_last_name:mother_last_name,
             avatar:avatar           
         }
 
@@ -162,13 +163,13 @@ class UserController {
                 }
             }
 
-            // Si el usuario actualiza su contraseña
-            if(usuarioDB.password !== password ){
-                //Encriptar password
-                const salt = bcrypt.genSaltSync();
-                // generando aleatoriamento la contraseña
-                userNew.password = bcrypt.hashSync(password, salt);
-            }
+            //Si el usuario actualiza su contraseña
+            // if(usuarioDB.password !== password ){
+            //     //Encriptar password
+            //     const salt = bcrypt.genSaltSync();
+            //     // generando aleatoriamento la contraseña
+            //     userNew.password = bcrypt.hashSync(password, salt);
+            // }
 
             // si el usuario desea actualizar la imagen subira la imagen a firevase
             if(file != undefined){
