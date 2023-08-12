@@ -10,25 +10,25 @@ es una componente modular y escalable diseñada para gestionar la autenticación
 
 1. **Clonar el Repositorio:**
 
-   sh
+   ```sh
    git clone https://github.com/JulioJohan/Social-Hub-Login.git
    cd Social-Hub-Login
  
 2. **Accede al directorio del proyecto.**
    Instalación de dependencias
-    sh
+    ```sh
     npm i
 
 3. **Inicial el proyecto en desarrollo.**
-    sh
+    ```sh
     npm run dev
 
 4. **Traspilar a JS.**
-    sh
+    ```sh
     npm run tsc
 
 5. **Iniciar el proyecto en producción(traspilado a JS).**
-    sh
+    ```sh
     npm run start
 
 
