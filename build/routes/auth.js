@@ -4,14 +4,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // 
 const express_1 = require("express");
 const authController_1 = require("../controllers/authController");
-const express_validator_1 = require("express-validator");
-const validar_campos_1 = require("../middlewares/validar-campos");
 const router = (0, express_1.Router)();
-router.post('/', [
-    (0, express_validator_1.check)('email', "El email es oligatorio").isEmail(),
-    (0, express_validator_1.check)('password', "El password es obligatorio").not().isEmpty(),
-    validar_campos_1.validarCampos.validarCamposFun
-], authController_1.login.login);
+router.post('/', authController_1.login.login);
 router.post('/checkDoubleAuthentication', authController_1.login.checkDoubleAuthentication);
 //  router.post('/google',
 //  [

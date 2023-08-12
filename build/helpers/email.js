@@ -12,61 +12,68 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.emailOlvidePassword = exports.emailRegister = void 0;
+exports.emailForgetPassword = exports.emailRegister = void 0;
 //Importando dependencia para poder recibir email
-const nodemailer_1 = __importDefault(require("nodemailer"));
+const mail_1 = __importDefault(require("@sendgrid/mail"));
 //Datos para la confirmacion del registro
 const emailRegister = (datos) => __awaiter(void 0, void 0, void 0, function* () {
+    // Estableciendo la api key 
+    mail_1.default.setApiKey(process.env.SEND_GRID);
+    // Extrayendo los datos del objeto
     const { email, nombre, token } = datos;
-    //Obtenido de Mailtrap
-    const transport = nodemailer_1.default.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: Number(process.env.EMAIL_PORT),
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
-    const info = yield transport.sendMail({
-        //Informacion de quien lo envio   
-        from: '"Hospital -  Administracion de Hospitales" <hospital@adminpro.com>',
-        //Email del usuario
+    // Contenido del correo
+    const msg = {
         to: email,
-        subject: "Hospital - Confirma tu cuenta",
-        text: "Comprueba tu cuenta en Mykiu",
-        html: `<p>Hola: ${nombre} Comprueba tu cuenta en adminpro</p>
+        from: 'shub64127@gmail.com',
+        subject: 'Social Hub - Verificacion de dos pasos',
+        text: 'Comprueba tu cuenta en Social Hub',
+        html: `<p>Hola: ${nombre} Comprueba tu cuenta en Social Hub</p>
         <p>Tu cuenta ya casi esta lista, solo debes comprobarla en el siguiente enlace:
-        <a href = "https://ubiquitous-bublanina-fa06e5.netlify.app/confirmar/${token}">Comprobar Cuenta</a>       
-       <p> Si tu no creaste esta cuente, puedes ignorar el mensaje </p>`
+        <a href = "http://localhost:4200/#/auth/confirm/${token}">Comprobar Cuenta</a>       
+        <p> Si tu no creaste esta cuente, puedes ignorar el mensaje </p>`
+    };
+    // Envio del correo
+    yield mail_1.default.send(msg).then(() => {
+        console.log('Email Enviado');
+    }).catch((error) => {
+        console.error(error);
     });
+    // const info = await transport.sendMail({
+    //     //Informacion de quien lo envio   
+    //     from:'"Hospital -  Administracion de Hospitales" <hospital@adminpro.com>',
+    //       //Email del usuario
+    //    to: email,
+    //    subject: "Hospital - Confirma tu cuenta",
+    //    text: "Comprueba tu cuenta en Mykiu",
+    //    html:`<p>Hola: ${nombre} Comprueba tu cuenta en adminpro</p>
+    //     <p>Tu cuenta ya casi esta lista, solo debes comprobarla en el siguiente enlace:
+    //     <a href = "http://localhost:4200/confirmar/${token}">Comprobar Cuenta</a>       
+    //    <p> Si tu no creaste esta cuente, puedes ignorar el mensaje </p>`
+    // })
 });
 exports.emailRegister = emailRegister;
 //Datos para la confirmacion del registro
-const emailOlvidePassword = (datos) => __awaiter(void 0, void 0, void 0, function* () {
-    //extrayendo llos datos
+const emailForgetPassword = (datos) => __awaiter(void 0, void 0, void 0, function* () {
+    // Estableciendo la api key 
+    mail_1.default.setApiKey(process.env.SEND_GRID);
+    //extrayendo los datos
     const { email, nombre, token } = datos;
-    //Obtenido de Mailtrap
-    const transport = nodemailer_1.default.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: Number(process.env.EMAIL_PORT),
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
-    //   Informacion del Email
-    const info = yield transport.sendMail({
-        //Informacion de quien lo envio   
-        from: '"Hospital -  Administrador de Proyecto" <hospital@adminPro.com>',
-        //Email del usuario
+    // Contenido del correo
+    const msg = {
         to: email,
-        subject: "Hospital - Restablece tu password en AdminPro",
-        text: "Restablece tu password en adminPro",
-        html: `<p>Hola: ${nombre} has solicitado restablecer tu password en adminPro </p>
-            <p>Sigue el siguiente enlace para generar un nuevo password:
-            <a href = "https://ubiquitous-bublanina-fa06e5.netlify.app/nuevo-password/${token}">Restablecer Password</a>       
-           <p> Si tu no solicitaste este email, puedes ignorar el mensaje </p>
-            `
+        from: 'shub64127@gmail.com',
+        subject: 'Social Hub - Verificacion de dos pasos',
+        text: "Restablece tu Contraseña en Social Hub",
+        html: `<p>Hola: ${nombre} has solicitado restablecer tu password en Social Hub </p>
+        <p>Sigue el siguiente enlace para generar un nuevo password:
+        <a href = "http://localhost:4200/#/auth/change-pass/${token}">Restablecer Password</a>       
+        <p> Si tu no solicitaste este email, puedes ignorar el mensaje </p> `
+    };
+    // Envio del correo
+    mail_1.default.send(msg).then(() => {
+        console.log('Email sent');
+    }).catch((error) => {
+        console.error(error);
     });
 });
-exports.emailOlvidePassword = emailOlvidePassword;
+exports.emailForgetPassword = emailForgetPassword;

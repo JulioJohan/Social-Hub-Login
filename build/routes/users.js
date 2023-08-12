@@ -7,8 +7,8 @@ const express_validator_1 = require("express-validator");
 const validar_campos_1 = require("../middlewares/validar-campos");
 //rutas
 const router = (0, express_1.Router)();
-router.get('/findById', userController_1.userController.findById);
-router.delete('/deleteUser', userController_1.userController.deleteUser);
+router.get('/findById/:id', userController_1.userController.findById);
+router.delete('/deleteUser/:id', userController_1.userController.deleteUser);
 // router.get('/',validarJWT ,usuarioController.getUsuarios );
 router.post('/createUser', [
     //primero es el campo, segundo es el mensaje

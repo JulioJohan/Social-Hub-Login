@@ -36,19 +36,20 @@ class UserController {
                 console.log(error);
                 return res.json({
                     ok: false,
-                    msg: 'Error en conexión de base de datos'
-                });
+                    msg: 'Error inesperado '
+                }).status(500);
             }
             if (!user) {
                 return res.json({
                     ok: false,
                     msg: 'El usuario no existe en la base de datos'
-                });
+                }).status(404);
             }
             res.json({
                 ok: true,
-                msg: 'Busqueda por id se consulto correctamente'
-            });
+                msg: 'Busqueda por id se consulto correctamente',
+                data: user
+            }).status(200);
         });
     }
     // async getUsuarios(req: Request, res: Response) {
@@ -79,10 +80,10 @@ class UserController {
                 //Busqueda por email con el where con el orm bycript 
                 const existeEmail = yield user_1.User.findOne({ where: { email: email } });
                 if (existeEmail) {
-                    return res.status(400).json({
+                    return res.json({
                         ok: false,
                         msg: 'El correo ya esta registrado'
-                    });
+                    }).status(400);
                 }
                 //Encriptar password
                 const salt = bcrypt_1.default.genSaltSync();
@@ -105,34 +106,34 @@ class UserController {
             }
             catch (error) {
                 console.log(error);
-                res.status(500).json({
+                res.json({
                     ok: false,
                     msg: 'Error inesperado '
-                });
+                }).status(500);
             }
             res.json({
                 ok: true,
                 msg: 'Usuario Creado Correctamente, Revisa tu Email para confirmar tu cuenta',
                 user,
                 token
-            });
+            }).status(200);
         });
     }
     updateUser(req, res) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             // Extraer la informacion que el usuario puede actualizar
-            const { name, email, password, age, dateBirth, fatherLastName, avatar } = req.body;
+            const { name, email, age, date_birth, password, father_last_name, mother_last_name, avatar } = req.body;
             // Obteniendo el archvo para guardar
-            const file = (_a = req.files) === null || _a === void 0 ? void 0 : _a.multimedia;
+            const file = (_a = req.files) === null || _a === void 0 ? void 0 : _a.avatar;
             // creando un objeto y asignando información de lo que recibimos
             const userNew = {
                 name: name,
                 email: email,
-                password: password,
                 age: age,
-                date_birth: dateBirth,
-                father_last_name: fatherLastName,
+                date_birth: date_birth,
+                father_last_name: father_last_name,
+                mother_last_name: mother_last_name,
                 avatar: avatar
             };
             try {
@@ -143,10 +144,10 @@ class UserController {
                 // console.log(usuarioDB?._id)
                 //si el usuario no esta
                 if (!usuarioDB) {
-                    return res.status(404).json({
+                    return res.json({
                         ok: false,
                         msg: 'No existe un usuario con ese id'
-                    });
+                    }).status(404);
                 }
                 //si el usuario manda un diferente correo 
                 if (usuarioDB.email !== email) {
@@ -155,19 +156,19 @@ class UserController {
                     const existeEmail = yield user_1.User.findOne({ where: { email: email } });
                     //si existe mandamos un error
                     if (existeEmail) {
-                        return res.status(400).json({
+                        return res.json({
                             ok: false,
                             msg: 'Ya existe un usuario con ese email'
-                        });
+                        }).status(400);
                     }
                 }
-                // Si el usuario actualiza su contraseña
-                if (usuarioDB.password !== password) {
-                    //Encriptar password
-                    const salt = bcrypt_1.default.genSaltSync();
-                    // generando aleatoriamento la contraseña
-                    userNew.password = bcrypt_1.default.hashSync(password, salt);
-                }
+                //Si el usuario actualiza su contraseña
+                // if(usuarioDB.password !== password ){
+                //     //Encriptar password
+                //     const salt = bcrypt.genSaltSync();
+                //     // generando aleatoriamento la contraseña
+                //     userNew.password = bcrypt.hashSync(password, salt);
+                // }
                 // si el usuario desea actualizar la imagen subira la imagen a firevase
                 if (file != undefined) {
                     const newAvater = yield (0, firebase_1.uploadFileFirebase)(file);
@@ -187,10 +188,13 @@ class UserController {
                     ok: true,
                     usuarioActualizado,
                     msg: 'La información se actualizó correctamente'
-                });
+                }).status(200);
             }
             catch (error) {
-                console.log(error);
+                res.json({
+                    ok: false,
+                    msg: 'Error inesperado '
+                }).status(500);
             }
         });
     }
@@ -204,10 +208,10 @@ class UserController {
                 const usuarioDB = yield user_1.User.findByPk(uid);
                 // si el usuario no esta
                 if (!usuarioDB) {
-                    return res.status(404).json({
+                    return res.json({
                         ok: false,
                         msg: 'No existe un usuario'
-                    });
+                    }).status(404);
                 }
                 // Eliminando donde esta el id
                 yield user_1.User.destroy({
@@ -219,13 +223,13 @@ class UserController {
                 res.json({
                     ok: true,
                     msg: "Usuario Eliminado"
-                });
+                }).status(200);
             }
             catch (error) {
                 // console.log(error);
-                res.json({
+                res.status(500).json({
                     ok: false,
-                    msg: "Error inesperado"
+                    msg: 'Error inesperado '
                 });
             }
         });

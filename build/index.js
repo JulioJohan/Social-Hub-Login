@@ -12,7 +12,10 @@ require('dotenv').config();
 //Crear el servidor de express
 const app = (0, express_1.default)();
 //configurar cors
-app.use((0, cors_1.default)());
+const corsOptions = {
+    origin: 'http://localhost:4200',
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use((0, express_fileupload_1.default)());
 (0, config_1.dataBaseConnection)();
 //Lectura y parseo del body
