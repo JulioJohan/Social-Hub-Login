@@ -17,7 +17,7 @@ export const emailRegister = async(datos:any) =>{
         text: 'Comprueba tu cuenta en Social Hub',
         html: `<p>Hola: ${nombre} Comprueba tu cuenta en Social Hub</p>
         <p>Tu cuenta ya casi esta lista, solo debes comprobarla en el siguiente enlace:
-        <a href = "http://localhost:4200/#/auth/confirm/${token}">Comprobar Cuenta</a>       
+        <a href = "https://18.220.73.90/#/auth/confirm/${token}">Comprobar Cuenta</a>       
         <p> Si tu no creaste esta cuente, puedes ignorar el mensaje </p>`
     };
 
@@ -37,7 +37,7 @@ export const emailRegister = async(datos:any) =>{
     //    text: "Comprueba tu cuenta en Mykiu",
     //    html:`<p>Hola: ${nombre} Comprueba tu cuenta en adminpro</p>
     //     <p>Tu cuenta ya casi esta lista, solo debes comprobarla en el siguiente enlace:
-    //     <a href = "http://localhost:4200/confirmar/${token}">Comprobar Cuenta</a>       
+    //     <a href = "https://18.220.73.90/confirmar/${token}">Comprobar Cuenta</a>       
     //    <p> Si tu no creaste esta cuente, puedes ignorar el mensaje </p>`
     // })
 }
@@ -56,7 +56,7 @@ export const emailForgetPassword = async(datos:any) => {
         text: "Restablece tu Contraseña en Social Hub",
         html:`<p>Hola: ${nombre} has solicitado restablecer tu password en Social Hub </p>
         <p>Sigue el siguiente enlace para generar un nuevo password:
-        <a href = "http://localhost:4200/#/auth/change-pass/${token}">Restablecer Password</a>       
+        <a href = "https://18.220.73.90/#/auth/change-pass/${token}">Restablecer Password</a>       
         <p> Si tu no solicitaste este email, puedes ignorar el mensaje </p> ` 
     };
 

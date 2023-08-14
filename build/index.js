@@ -13,7 +13,7 @@ require('dotenv').config();
 const app = (0, express_1.default)();
 //configurar cors
 const corsOptions = {
-    origin: 'http://localhost:4200',
+    origin: 'https://18.220.73.90',
 };
 app.use((0, cors_1.default)(corsOptions));
 app.use((0, express_fileupload_1.default)());
