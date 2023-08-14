@@ -15,7 +15,7 @@ const app = express();
 //configurar cors
 
 const corsOptions = {
-    origin: 'http://localhost:4200',
+    origin: 'https://18.220.73.90',
 }
 app.use(cors(corsOptions));
 app.use(fileUpload())
