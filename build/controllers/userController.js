@@ -141,7 +141,7 @@ class UserController {
                 const uid = req.params.id;
                 //buscamos si existe el usuario
                 const usuarioDB = yield user_1.User.findByPk(uid);
-                // console.log(usuarioDB?._id)
+                console.log(usuarioDB === null || usuarioDB === void 0 ? void 0 : usuarioDB.age);
                 //si el usuario no esta
                 if (!usuarioDB) {
                     return res.json({
@@ -170,10 +170,13 @@ class UserController {
                 //     userNew.password = bcrypt.hashSync(password, salt);
                 // }
                 // si el usuario desea actualizar la imagen subira la imagen a firevase
-                if (file != undefined) {
+                if (file !== undefined) {
                     const newAvater = yield (0, firebase_1.uploadFileFirebase)(file);
                     // Asignar la url
                     userNew.avatar = newAvater;
+                }
+                if (file === undefined) {
+                    userNew.avatar = usuarioDB.avatar;
                 }
                 // Actualizando información
                 const usuarioActualizado = yield user_1.User.update(userNew, {
@@ -182,16 +185,15 @@ class UserController {
                         id_user: uid
                     }
                 });
-                // console.log(usuarioActualizado)
                 // Si todo sale correcto 
-                res.json({
+                return res.json({
                     ok: true,
                     usuarioActualizado,
                     msg: 'La información se actualizó correctamente'
                 }).status(200);
             }
             catch (error) {
-                res.json({
+                return res.json({
                     ok: false,
                     msg: 'Error inesperado '
                 }).status(500);

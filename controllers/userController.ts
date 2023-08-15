@@ -139,7 +139,7 @@ class UserController {
 
             //buscamos si existe el usuario
             const usuarioDB = await User.findByPk(uid);
-            // console.log(usuarioDB?._id)
+            console.log(usuarioDB?.age)
 
             //si el usuario no esta
             if (!usuarioDB) {
@@ -163,6 +163,7 @@ class UserController {
                 }
             }
 
+
             //Si el usuario actualiza su contraseña
             // if(usuarioDB.password !== password ){
             //     //Encriptar password
@@ -172,12 +173,16 @@ class UserController {
             // }
 
             // si el usuario desea actualizar la imagen subira la imagen a firevase
-            if(file != undefined){
+            if(file !== undefined){
                 const newAvater:string = await uploadFileFirebase(file);
                 // Asignar la url
                 userNew.avatar = newAvater;
             }
-           
+            if(file === undefined){
+                userNew.avatar = usuarioDB.avatar;
+            }
+
+            
             // Actualizando información
             const usuarioActualizado = await User.update(userNew,{
                 // Poniendo condicion donde se actualizara
@@ -185,16 +190,15 @@ class UserController {
                     id_user:uid
                 }
             });
-            // console.log(usuarioActualizado)
             // Si todo sale correcto 
-            res.json({
+            return res.json({
                 ok: true,
                 usuarioActualizado,
                 msg:'La información se actualizó correctamente'
             }).status(200);
 
         } catch (error) {
-            res.json({
+            return res.json({
                 ok: false,
                 msg: 'Error inesperado '
             }).status(500);
